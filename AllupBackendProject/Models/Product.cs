@@ -16,9 +16,9 @@ namespace AllupBackendProject.Models
         public bool IsDeleted { get; set; }
         public bool InStock { get; set; }
         public double Price { get; set; }
-        public double DiscountPrice { get; set; }
-        public int PercentageDiscount { get; set; }
-        public double TaxTotal{ get; set; }
+        public Nullable<double> DiscountPrice { get; set; }
+        public Nullable<int> PercentageDiscount { get; set; }
+        public Nullable<double> TaxTotal { get; set; }
         public int StockCount { get; set; }
 
         public Nullable<DateTime> CreatedAt { get; set; } = DateTime.Now;

@@ -1,4 +1,4 @@
-﻿
+﻿@model Bio
 
     <!--====== Newsletter Part Start ======-->
     <section class="newsletter-area pt-100 pb-100 bg_cover" style="background-image: url(assets/images/bg-newletter.jpg)">
@@ -34,10 +34,10 @@
                             <h4 class="footer-title">Contact Details</h4>
 
                             <ul>
-                                <li><i class="fas fa-map-marker-alt"></i> 45 Grand Central Terminal New York,NY 1017 United State USA</li>
-                                <li><i class="fas fa-phone"></i> <a href="tell:123-456-789">+123 456 789</a></li>
-                                <li><i class="fas fa-envelope"></i><a href="mailto://email@yourwebsitename.com">email@yourwebsitename.com</a></li>
-                                <li><i class="far fa-clock"></i> Mon-Sat 9:00pm - 5:00pm Sun:Closed</li>
+                                <li><i class="fas fa-map-marker-alt"></i>@Model.Address</li>
+                                <li><i class="fas fa-phone"></i> <a href="tell:@Model.Phone">@Model.Phone</a></li>
+                                <li><i class="fas fa-envelope"></i><a href="mailto://@Model.Email">@Model.Email</a></li>
+                                <li><i class="far fa-clock"></i>@Model.WorkDays</li>
                             </ul>
                         </div> <!-- footer contact -->
                     </div>

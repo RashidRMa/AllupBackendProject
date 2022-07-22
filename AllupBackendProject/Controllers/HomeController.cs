@@ -1,5 +1,8 @@
 ﻿using AllupBackendProject.DAL;
+using AllupBackendProject.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace AllupBackendProject.Controllers
 {
@@ -12,9 +15,17 @@ namespace AllupBackendProject.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            HomeVM homeVM = new HomeVM();
+            homeVM.Sliders = await _context.Sliders.ToListAsync();
+            homeVM.Categories = await _context.Categories.Include(x=>x.Children).ToListAsync();
+            homeVM.Blogs = await _context.Blogs.ToListAsync();
+            homeVM.Banners = await _context.Banners.ToListAsync();
+            homeVM.Products = await _context.Products.Include(x=> x.TagProducts).ToListAsync();
+            homeVM.Testimonials = await _context.Testimonials.ToListAsync();
+
+            return View(homeVM);
         }
     }
 }
