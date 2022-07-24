@@ -11,8 +11,17 @@ namespace AllupBackendProject.ViewModels
         public List<Product> Products { get; set; }
         public List<Blog> Blogs { get; set; }
         public List<Testimonial> Testimonials { get; set; }
-        
 
+        public List<Product> MobilephoneTabs { get; set; }
+        public List<Product> TVAudioVideos { get; set; }
+        public List<Product> Computers { get; set; }
+
+        public List<Product> IsFeatured { get; set; }
+        public List<Product> BestSeller { get; set; }
+        public List<Product> NewArrival { get; set; }
+
+        public List<ProductImage> ProductImages { get; set; }
+        public List<Brand> Brands { get; set; }
 
     }
 }

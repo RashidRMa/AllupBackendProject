@@ -1,7 +1,7 @@
 ﻿@model Bio
 
     <!--====== Newsletter Part Start ======-->
-    <section class="newsletter-area pt-100 pb-100 bg_cover" style="background-image: url(assets/images/bg-newletter.jpg)">
+    <section class="newsletter-area pt-100 pb-100 bg_cover" style="background-image: url(../assets/images/bg-newletter.jpg)">
         <div class="container">
             <div class="row justify-content-end">
                 <div class="col-lg-8">
@@ -10,9 +10,9 @@
                         <p>allup is a powerful eCommerce HTML Template</p>
 
                         <div class="newsletter-forn">
-                            <form action="#">
-                                <input type="text" placeholder="Your Email address">
-                                <button class="main-btn">Subscribe</button>
+                            <form >
+                                <input asp-for="Email" placeholder="Your Email address" value="">
+                                <button type="submit" class="main-btn alo" id="submitBtn">Subscribe</button>
                             </form>
                         </div>
                     </div> <!-- newsletter content -->
@@ -25,7 +25,7 @@
 
     <!--====== Footer Part Start ======-->
 
-    <section class="footer-area bg_cover" style="background-image: url(assets/images/bg-footer.jpg)">
+    <section class="footer-area bg_cover" style="background-image: url(../assets/images/bg-footer.jpg)">
         <div class="footer-widget pt-30 pb-70">
             <div class="container">
                 <div class="row">
@@ -249,3 +249,35 @@
     </div> <!-- Modal -->
 
     <!--====== Quick View Part Ends ======-->
+
+@section Scripts{
+    <script>
+        
+    let email = document.getElementById("Email");
+    let submitBtn = document.getElementById("submitBtn");
+    
+  
+    submitBtn.onclick = function (e) {
+        e.preventDefault();
+        var formData = new FormData();
+        formData.append("Email", email.value);
+        console.log(name);
+        axios({
+            method: 'post',
+            url: '/subscribe/subscribe',
+            data: formData
+        })
+            .then(function (response) {
+                swal({
+                    title: "Good job!",
+                    text: "You clicked the button!",
+                    icon: "success",
+                });
+                console.log(response);
+            })
+            .catch(function (response) {
+                console.log(response);
+            });
+    };
+    </script>
+}
