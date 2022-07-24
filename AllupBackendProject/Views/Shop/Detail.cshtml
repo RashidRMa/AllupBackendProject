@@ -1,6 +1,6 @@
 ﻿<!--Shop detail-->
 
-@Model 
+@model ShopVM
 
 @{
     ViewData["Title"] = "Detail";
@@ -13,8 +13,8 @@
         <div class="container-fluid custom-container">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                    <li class="breadcrumb-item"><a href="shop-left-sidebar.html">Shop</a></li>
+                    <li class="breadcrumb-item"><a asp-controller="home" asp-action="index">Home</a></li>
+                    <li class="breadcrumb-item"><a asp-action="index" >Shop</a></li>
                     <li class="breadcrumb-item active">Product Details</li>
                 </ol>
             </nav>
@@ -24,36 +24,24 @@
     <!--====== Breadcrumb Part Ends ======-->
 
     <!--====== Single Product Part Start ======-->
-
+    
     <section class="single-product-page pt-20">
         <div class="container-fluid custom-container">
             <div class="row">
                 <div class="col-lg-6">
                     <div class="single-product-image mt-30">
                         <div class="product-single-image">
-                            <div class="single-image">
-                                <img src="assets/images/product-quick/product-1.jpg" alt="">
-                            </div>
-                            <div class="single-image">
-                                <img src="assets/images/product-quick/product-2.jpg" alt="">
-                            </div>
-                            <div class="single-image">
-                                <img src="assets/images/product-quick/product-3.jpg" alt="">
-                            </div>
-                            <div class="single-image">
-                                <img src="assets/images/product-quick/product-4.jpg" alt="">
-                            </div>
-                            <div class="single-image">
-                                <img src="assets/images/product-quick/product-5.jpg" alt="">
-                            </div>
+                          
+                               <div class="single-image">
+                                    <img src="~/assets/images/product-quick/@Model.Product.ProductImages.Find(p=>p.IsMain == true).ImageUrl" alt="">
+                                </div>
+                           
                         </div>
                         <div class="product-single-thumb-image">
                             <ul class="product-single-thumb">
-                                <li><img src="assets/images/product-quick/product-1.jpg" alt="product"></li>
-                                <li><img src="assets/images/product-quick/product-2.jpg" alt="product"></li>
-                                <li><img src="assets/images/product-quick/product-3.jpg" alt="product"></li>
-                                <li><img src="assets/images/product-quick/product-4.jpg" alt="product"></li>
-                                <li><img src="assets/images/product-quick/product-5.jpg" alt="product"></li>
+                               
+                                   <li><img src="~/assets/images/product-quick/@Model.Product.ProductImages.Find(p=>p.IsMain == true).ImageUrl" alt="product"></li>
+                               
                             </ul>
                         </div>
                     </div> <!-- single product image -->
@@ -63,6 +51,7 @@
                         <div class="tags d-flex">
                             <span class="tag-title">Tags:</span>
                             <ul class="tag-list media-body">
+                               
                                 <li><a href="#">drone,</a></li>
                                 <li><a href="#">camera</a></li>
                             </ul>
@@ -82,28 +71,42 @@
                             </ul>
                         </div>
                         <div class="product-price">
-                            <span class="price-sale">€21.90</span>
-                            <span class="regular-price">€25.90</span>
+                            <span class="price-sale">€@Model.Product.Price</span>
+                            <span class="regular-price">€@Model.Product.DiscountPrice</span>
                         </div>
                         <div class="product-basic-info">
                             <div class="single-info">
                                 <span class="title">Ex Tax :</span>
-                                <span class="value">€3.00</span>
-                            </div>
+                                @if (Model.Product.TaxTotal != null)
+                               {
+                                <span class="value">€@Model.Product.TaxTotal</span>
+                            }
+                            else
+                            {
+                                <span class="value">€0</span>
+                            }
+                        </div>
                             <div class="single-info">
                                 <span class="title">Brand :</span>
-                                <span class="value"><a href="#">Brac</a></span>
+                                <span class="value"><a href="#">@Model.Product.Brand.Name</a></span>
                             </div>
                             <div class="single-info">
                                 <span class="title"> Product Code :</span>
-                                <span class="value">abcd1234</span>
+                                <span class="value">@Model.Product.ProductCode</span>
                             </div>
                             <div class="single-info">
                                 <span class="title"> Availability :</span>
-                                <span class="value">In stock </span>
-                            </div>
+                                @if (Model.Product.InStock == true)
+                            {
+                                <span class="value"> In stock</span>
+                            }
+                            else
+                            {
+                                <span class="value">Out of stock </span>
+                            }
                         </div>
-                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas consectetur inventore voluptatem dignissimos nemo repellendus est, harum maiores veritatis quidem.</p>
+                        </div>
+                        <p>@Model.Product.Desc.Substring(0,45)</p>
                         
                         <div class="product-size-color-quantity">
                             <div class="product-quantity mt-25">
@@ -138,7 +141,7 @@
                                 <div class="col-sm-4">
                                     <div class="single-reassurance d-flex">
                                         <div class="reassurance-icon">
-                                            <img src="assets/images/icon-1.png" alt="icon">
+                                            <img src="~/assets/images/icon-1.png" alt="icon">
                                         </div>
                                         <div class="reassurance media-body">
                                             <p>Security policy (edit with Customer reassurance module)</p>
@@ -148,7 +151,7 @@
                                 <div class="col-sm-4">
                                     <div class="single-reassurance d-flex">
                                         <div class="reassurance-icon">
-                                            <img src="assets/images/icon-2.png" alt="icon">
+                                            <img src="~/assets/images/icon-2.png" alt="icon">
                                         </div>
                                         <div class="reassurance media-body">
                                             <p>Delivery policy (edit with Customer reassurance module)</p>
@@ -158,7 +161,7 @@
                                 <div class="col-sm-4">
                                     <div class="single-reassurance d-flex">
                                         <div class="reassurance-icon">
-                                            <img src="assets/images/icon-3.png" alt="icon">
+                                            <img src="~/assets/images/icon-3.png" alt="icon">
                                         </div>
                                         <div class="reassurance media-body">
                                             <p>Return policy (edit with Customer reassurance module)</p>
@@ -190,7 +193,7 @@
             <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
                     <div class="description">
-                        <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam fringilla augue nec est tristique auctor. Donec non est at libero vulputate rutrum. Morbi ornare lectus quis justo gravida semper. Nulla tellus mi, vulputate adipiscing cursus eu, suscipit id nulla. <br> <br> Pellentesque aliquet, sem eget laoreet ultrices, ipsum metus feugiat sem, quis fermentum turpis eros eget velit. Donec ac tempus ante. Fusce ultricies massa massa. Fusce aliquam, purus eget sagittis vulputate, sapien libero hendrerit est, sed commodo augue nisi non neque. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tempor, lorem et placerat vestibulum, metus nisi posuere nisl, in accumsan elit odio quis mi. Cras neque metus, consequat et blandit et, luctus a nunc. Etiam gravida vehicula tellus, in imperdiet ligula euismod eget.</p>
+                        <p> @Model.Product.Desc</p>
                     </div> <!-- Description -->
                 </div>
                 <div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-tab">
@@ -352,8 +355,8 @@
                         <div class="single-product mt-30">
                             <div class="product-image">
                                 <a href="single-product.html">
-                                    <img class="first-image" src="assets/images/product/product-1.jpg" alt="product">
-                                    <img class="second-image" src="assets/images/product/product-2.jpg" alt="product">
+                                    <img class="first-image" src="~/assets/images/product/product-1.jpg" alt="product">
+                                    <img class="second-image" src="~/assets/images/product/product-2.jpg" alt="product">
                                 </a>
                                 <ul class="product-meta">
                                     <li><a href="#"><i class="icon ion-bag"></i></a></li>
@@ -381,8 +384,8 @@
                         <div class="single-product mt-30">
                             <div class="product-image">
                                 <a href="single-product.html">
-                                    <img class="first-image" src="assets/images/product/product-3.jpg" alt="product">
-                                    <img class="second-image" src="assets/images/product/product-4.jpg" alt="product">
+                                    <img class="first-image" src="~/assets/images/product/product-3.jpg" alt="product">
+                                    <img class="second-image" src="~/assets/images/product/product-4.jpg" alt="product">
                                 </a>
                                 <ul class="product-meta">
                                     <li><a href="#"><i class="icon ion-bag"></i></a></li>
@@ -412,7 +415,7 @@
                         <div class="single-product mt-30">
                             <div class="product-image">
                                 <a href="single-product.html">
-                                    <img class="first-image" src="assets/images/product/product-5.jpg" alt="product">
+                                    <img class="first-image" src="~/assets/images/product/product-5.jpg" alt="product">
                                 </a>
                                 <ul class="product-meta">
                                     <li><a href="#"><i class="icon ion-bag"></i></a></li>
@@ -440,8 +443,8 @@
                         <div class="single-product mt-30">
                             <div class="product-image">
                                 <a href="single-product.html">
-                                    <img class="first-image" src="assets/images/product/product-6.jpg" alt="product">
-                                    <img class="second-image" src="assets/images/product/product-7.jpg" alt="product">
+                                    <img class="first-image" src="~/assets/images/product/product-6.jpg" alt="product">
+                                    <img class="second-image" src="~/assets/images/product/product-7.jpg" alt="product">
                                 </a>
                                 <ul class="product-meta">
                                     <li><a href="#"><i class="icon ion-bag"></i></a></li>
@@ -469,7 +472,7 @@
                         <div class="single-product mt-30">
                             <div class="product-image">
                                 <a href="single-product.html">
-                                    <img class="first-image" src="assets/images/product/product-8.jpg" alt="product">
+                                    <img class="first-image" src="~/assets/images/product/product-8.jpg" alt="product">
                                 </a>
                                 <ul class="product-meta">
                                     <li><a href="#"><i class="icon ion-bag"></i></a></li>
@@ -497,8 +500,8 @@
                         <div class="single-product mt-30">
                             <div class="product-image">
                                 <a href="single-product.html">
-                                    <img class="first-image" src="assets/images/product/product-3.jpg" alt="product">
-                                    <img class="second-image" src="assets/images/product/product-9.jpg" alt="product">
+                                    <img class="first-image" src="~/assets/images/product/product-3.jpg" alt="product">
+                                    <img class="second-image" src="~/assets/images/product/product-9.jpg" alt="product">
                                 </a>
                                 <ul class="product-meta">
                                     <li><a href="#"><i class="icon ion-bag"></i></a></li>
@@ -526,8 +529,8 @@
                         <div class="single-product mt-30">
                             <div class="product-image">
                                 <a href="single-product.html">
-                                    <img class="first-image" src="assets/images/product/product-3.jpg" alt="product">
-                                    <img class="second-image" src="assets/images/product/product-9.jpg" alt="product">
+                                    <img class="first-image" src="~/assets/images/product/product-3.jpg" alt="product">
+                                    <img class="second-image" src="~/assets/images/product/product-9.jpg" alt="product">
                                 </a>
                                 <ul class="product-meta">
                                     <li><a href="#"><i class="icon ion-bag"></i></a></li>
@@ -575,8 +578,8 @@
                         <div class="single-product mt-30">
                             <div class="product-image">
                                 <a href="single-product.html">
-                                    <img class="first-image" src="assets/images/product/product-1.jpg" alt="product">
-                                    <img class="second-image" src="assets/images/product/product-2.jpg" alt="product">
+                                    <img class="first-image" src="~/assets/images/product/product-1.jpg" alt="product">
+                                    <img class="second-image" src="~/assets/images/product/product-2.jpg" alt="product">
                                 </a>
                                 <ul class="product-meta">
                                     <li><a href="#"><i class="icon ion-bag"></i></a></li>
@@ -604,8 +607,8 @@
                         <div class="single-product mt-30">
                             <div class="product-image">
                                 <a href="single-product.html">
-                                    <img class="first-image" src="assets/images/product/product-3.jpg" alt="product">
-                                    <img class="second-image" src="assets/images/product/product-4.jpg" alt="product">
+                                    <img class="first-image" src="~/assets/images/product/product-3.jpg" alt="product">
+                                    <img class="second-image" src="~/assets/images/product/product-4.jpg" alt="product">
                                 </a>
                                 <ul class="product-meta">
                                     <li><a href="#"><i class="icon ion-bag"></i></a></li>
@@ -635,7 +638,7 @@
                         <div class="single-product mt-30">
                             <div class="product-image">
                                 <a href="single-product.html">
-                                    <img class="first-image" src="assets/images/product/product-5.jpg" alt="product">
+                                    <img class="first-image" src="~/assets/images/product/product-5.jpg" alt="product">
                                 </a>
                                 <ul class="product-meta">
                                     <li><a href="#"><i class="icon ion-bag"></i></a></li>
@@ -663,8 +666,8 @@
                         <div class="single-product mt-30">
                             <div class="product-image">
                                 <a href="single-product.html">
-                                    <img class="first-image" src="assets/images/product/product-6.jpg" alt="product">
-                                    <img class="second-image" src="assets/images/product/product-7.jpg" alt="product">
+                                    <img class="first-image" src="~/assets/images/product/product-6.jpg" alt="product">
+                                    <img class="second-image" src="~/assets/images/product/product-7.jpg" alt="product">
                                 </a>
                                 <ul class="product-meta">
                                     <li><a href="#"><i class="icon ion-bag"></i></a></li>
@@ -692,7 +695,7 @@
                         <div class="single-product mt-30">
                             <div class="product-image">
                                 <a href="single-product.html">
-                                    <img class="first-image" src="assets/images/product/product-8.jpg" alt="product">
+                                    <img class="first-image" src="~/assets/images/product/product-8.jpg" alt="product">
                                 </a>
                                 <ul class="product-meta">
                                     <li><a href="#"><i class="icon ion-bag"></i></a></li>
@@ -720,8 +723,8 @@
                         <div class="single-product mt-30">
                             <div class="product-image">
                                 <a href="single-product.html">
-                                    <img class="first-image" src="assets/images/product/product-3.jpg" alt="product">
-                                    <img class="second-image" src="assets/images/product/product-9.jpg" alt="product">
+                                    <img class="first-image" src="~/assets/images/product/product-3.jpg" alt="product">
+                                    <img class="second-image" src="~/assets/images/product/product-9.jpg" alt="product">
                                 </a>
                                 <ul class="product-meta">
                                     <li><a href="#"><i class="icon ion-bag"></i></a></li>
@@ -749,8 +752,8 @@
                         <div class="single-product mt-30">
                             <div class="product-image">
                                 <a href="single-product.html">
-                                    <img class="first-image" src="assets/images/product/product-3.jpg" alt="product">
-                                    <img class="second-image" src="assets/images/product/product-9.jpg" alt="product">
+                                    <img class="first-image" src="~/assets/images/product/product-3.jpg" alt="product">
+                                    <img class="second-image" src="~/assets/images/product/product-9.jpg" alt="product">
                                 </a>
                                 <ul class="product-meta">
                                     <li><a href="#"><i class="icon ion-bag"></i></a></li>
@@ -789,49 +792,49 @@
                 <div class="col-lg-2">
                     <div class="single-brand">
                         <a href="#">
-                            <img src="assets/images/brand/brand-1.jpg" alt="brand">
+                            <img src="~/assets/images/brand/brand-1.jpg" alt="brand">
                         </a>
                     </div> <!-- single brand -->
                 </div>
                 <div class="col-lg-2">
                     <div class="single-brand">
                         <a href="#">
-                            <img src="assets/images/brand/brand-2.jpg" alt="brand">
+                            <img src="~/assets/images/brand/brand-2.jpg" alt="brand">
                         </a>
                     </div> <!-- single brand -->
                 </div>
                 <div class="col-lg-2">
                     <div class="single-brand">
                         <a href="#">
-                            <img src="assets/images/brand/brand-3.jpg" alt="brand">
+                            <img src="~/assets/images/brand/brand-3.jpg" alt="brand">
                         </a>
                     </div> <!-- single brand -->
                 </div>
                 <div class="col-lg-2">
                     <div class="single-brand">
                         <a href="#">
-                            <img src="assets/images/brand/brand-4.jpg" alt="brand">
+                            <img src="~/assets/images/brand/brand-4.jpg" alt="brand">
                         </a>
                     </div> <!-- single brand -->
                 </div>
                 <div class="col-lg-2">
                     <div class="single-brand">
                         <a href="#">
-                            <img src="assets/images/brand/brand-5.jpg" alt="brand">
+                            <img src="~/assets/images/brand/brand-5.jpg" alt="brand">
                         </a>
                     </div> <!-- single brand -->
                 </div>
                 <div class="col-lg-2">
                     <div class="single-brand">
                         <a href="#">
-                            <img src="assets/images/brand/brand-6.jpg" alt="brand">
+                            <img src="~/assets/images/brand/brand-6.jpg" alt="brand">
                         </a>
                     </div> <!-- single brand -->
                 </div>
                 <div class="col-lg-2">
                     <div class="single-brand">
                         <a href="#">
-                            <img src="assets/images/brand/brand-4.jpg" alt="brand">
+                            <img src="~/assets/images/brand/brand-4.jpg" alt="brand">
                         </a>
                     </div> <!-- single brand -->
                 </div>
@@ -848,7 +851,7 @@
             <div class="features-banner-wrapper d-flex flex-wrap">
                 <div class="single-features-banner d-flex">
                     <div class="banner-icon">
-                        <img src="assets/images/banner-icon/icon1.png" alt="Icon">
+                        <img src="~/assets/images/banner-icon/icon1.png" alt="Icon">
                     </div>
                     <div class="banner-content media-body">
                         <h3 class="banner-title">Free Shipping</h3>
@@ -857,7 +860,7 @@
                 </div> <!-- single features banner -->
                 <div class="single-features-banner d-flex">
                     <div class="banner-icon">
-                        <img src="assets/images/banner-icon/icon2.png" alt="Icon">
+                        <img src="~/assets/images/banner-icon/icon2.png" alt="Icon">
                     </div>
                     <div class="banner-content media-body">
                         <h3 class="banner-title">Support 24/7</h3>
@@ -866,7 +869,7 @@
                 </div> <!-- single features banner -->
                 <div class="single-features-banner d-flex">
                     <div class="banner-icon">
-                        <img src="assets/images/banner-icon/icon3.png" alt="Icon">
+                        <img src="~/assets/images/banner-icon/icon3.png" alt="Icon">
                     </div>
                     <div class="banner-content media-body">
                         <h3 class="banner-title">100% Money Back</h3>
@@ -875,7 +878,7 @@
                 </div> <!-- single features banner -->
                 <div class="single-features-banner d-flex">
                     <div class="banner-icon">
-                        <img src="assets/images/banner-icon/icon4.png" alt="Icon">
+                        <img src="~/assets/images/banner-icon/icon4.png" alt="Icon">
                     </div>
                     <div class="banner-content media-body">
                         <h3 class="banner-title">90 Days Return</h3>
@@ -884,7 +887,7 @@
                 </div> <!-- single features banner -->
                 <div class="single-features-banner d-flex">
                     <div class="banner-icon">
-                        <img src="assets/images/banner-icon/icon5.png" alt="Icon">
+                        <img src="~/assets/images/banner-icon/icon5.png" alt="Icon">
                     </div>
                     <div class="banner-content media-body">
                         <h3 class="banner-title">Payment Secure</h3>

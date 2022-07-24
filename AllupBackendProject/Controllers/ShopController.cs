@@ -48,17 +48,19 @@ namespace AllupBackendProject.Controllers
 
             ShopVM shopVM = new ShopVM();
 
-            shopVM.Products = _context.Products
+            Product dbProcduct = _context.Products
                     .Include(p => p.ProductImages)
                     .Include(p => p.Brand)
                     .Include(p => p.Category)
-                    .ToList();
+                    .Include(p=> p.TagProducts)
+                    .FirstOrDefault(p => p.Id == id);
+
+            if (dbProcduct == null) return NotFound();
+
+            shopVM.Product = dbProcduct;
             shopVM.Categories = _context.Categories.ToList();
             shopVM.Reviews = _context.Reviews.ToList();
                     
-
-            Product dbProcduct = _context.Products.FirstOrDefault(p => p.Id == id);
-            if (dbProcduct == null) return NotFound();
 
 
             
