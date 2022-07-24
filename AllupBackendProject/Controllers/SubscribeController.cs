@@ -12,10 +12,10 @@ namespace AllupBackendProject.Controllers
         {
             _context = context;
         }
-        public IActionResult Subscribe()
-        {
-            return View();
-        }
+        //public IActionResult Subscribe()
+        //{
+        //    return View();
+        //}
 
         [HttpPost]
         public IActionResult Subscribe([FromForm] Subscription subscription)

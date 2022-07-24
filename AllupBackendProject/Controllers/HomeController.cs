@@ -76,7 +76,7 @@ namespace AllupBackendProject.Controllers
             homeVM.Sliders = await _context.Sliders.ToListAsync();
             homeVM.Categories = categories;
             homeVM.Blogs = await _context.Blogs.ToListAsync();
-            homeVM.Banners = await _context.Banners.ToListAsync();
+            homeVM.Banners = await _context.Banners.Take(2).ToListAsync();
             homeVM.Products = await _context.Products.Include(x=> x.ProductImages).ToListAsync();
             homeVM.Testimonials = await _context.Testimonials.ToListAsync();
             homeVM.IsFeatured = products.Where(x => x.IsFeatured == true).ToList();
