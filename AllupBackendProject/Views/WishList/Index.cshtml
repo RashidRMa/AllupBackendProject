@@ -1,0 +1,196 @@
+﻿
+
+@model List<WishList>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <!--====== Breadcrumb Part Start ======-->
+
+    <div class="breadcrumb-area">
+        <div class="container-fluid custom-container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-controller="home" asp-action="index">Home</a></li>
+                    <li class="breadcrumb-item active">Wishlist</li>
+                </ol>
+            </nav>
+        </div> <!-- container -->
+    </div>
+
+    <!--====== Breadcrumb Part Ends ======-->
+
+    <!--====== Wishlist Part Start ======-->
+
+    <section class="wishlist-page pt-10">
+        <div class="container-fluid custom-container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="wishlist mt-30">
+                        <div class="shopping-cart-table table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th style="text-align: center" class="image">Image</th>
+                                        <th style="text-align: center" class="product">Product Name</th>
+                                        <th style="text-align: center" class="price">Price</th>
+                                        <th style="text-align: center" class="delete">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    
+                                        @foreach (var item in Model)
+                                       {
+                                           <tr>
+                                           <td>
+                                            <div class="product-image" style="text-align: center">
+                                                <img width="100px" height="100px" src="~/assets/images/product/@item.Product.ProductImages.Find(x=> x.IsMain == true).ImageUrl" alt="cart">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="product-title">
+                                                <h4 class="title"><a href="single-product.html">@item.Product.Name</a></h4>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="product-price" style="text-align: center">
+                                                <span class="price">€@item.Product.Price</span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="product-delete">
+                                                <a asp-controller="basket" asp-action="additem" asp-route-id="@item.Product.Id"><i class="icon ion-bag"></i></a>
+                                                <a asp-controller="wishlist" asp-action="remove" asp-route-id="@item.Product.Id"><i class="fal fa-trash-alt"></i></a>
+                                            </div>
+                                        </td>
+                                        </tr>
+                                       }
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!--====== Wishlist Part Ends ======-->
+
+    <!--====== Brand Part Start ======-->
+
+    <div class="brand-area pt-80">
+        <div class="container-fluid custom-container">
+            <div class="row brand-active">
+                <div class="col-lg-2">
+                    <div class="single-brand">
+                        <a href="#">
+                            <img src="~/assets/images/brand/brand-1.jpg" alt="brand">
+                        </a>
+                    </div> <!-- single brand -->
+                </div>
+                <div class="col-lg-2">
+                    <div class="single-brand">
+                        <a href="#">
+                            <img src="~/assets/images/brand/brand-2.jpg" alt="brand">
+                        </a>
+                    </div> <!-- single brand -->
+                </div>
+                <div class="col-lg-2">
+                    <div class="single-brand">
+                        <a href="#">
+                            <img src="~/assets/images/brand/brand-3.jpg" alt="brand">
+                        </a>
+                    </div> <!-- single brand -->
+                </div>
+                <div class="col-lg-2">
+                    <div class="single-brand">
+                        <a href="#">
+                            <img src="~/assets/images/brand/brand-4.jpg" alt="brand">
+                        </a>
+                    </div> <!-- single brand -->
+                </div>
+                <div class="col-lg-2">
+                    <div class="single-brand">
+                        <a href="#">
+                            <img src="~/assets/images/brand/brand-5.jpg" alt="brand">
+                        </a>
+                    </div> <!-- single brand -->
+                </div>
+                <div class="col-lg-2">
+                    <div class="single-brand">
+                        <a href="#">
+                            <img src="~/assets/images/brand/brand-6.jpg" alt="brand">
+                        </a>
+                    </div> <!-- single brand -->
+                </div>
+                <div class="col-lg-2">
+                    <div class="single-brand">
+                        <a href="#">
+                            <img src="~/assets/images/brand/brand-4.jpg" alt="brand">
+                        </a>
+                    </div> <!-- single brand -->
+                </div>
+            </div> <!-- row -->
+        </div> <!-- container -->
+    </div>
+
+    <!--====== Brand Part Ends ======-->
+
+    <!--====== Features Banner Part Start ======-->
+
+    <section class="features-banner-area pt-80 pb-100">
+        <div class="container-fluid custom-container">
+            <div class="features-banner-wrapper d-flex flex-wrap">
+                <div class="single-features-banner d-flex">
+                    <div class="banner-icon">
+                        <img src="~/assets/images/banner-icon/icon1.png" alt="Icon">
+                    </div>
+                    <div class="banner-content media-body">
+                        <h3 class="banner-title">Free Shipping</h3>
+                        <p>Free shipping on all US order</p>
+                    </div>
+                </div> <!-- single features banner -->
+                <div class="single-features-banner d-flex">
+                    <div class="banner-icon">
+                        <img src="~/assets/images/banner-icon/icon2.png" alt="Icon">
+                    </div>
+                    <div class="banner-content media-body">
+                        <h3 class="banner-title">Support 24/7</h3>
+                        <p>Contact us 24 hours a day</p>
+                    </div>
+                </div> <!-- single features banner -->
+                <div class="single-features-banner d-flex">
+                    <div class="banner-icon">
+                        <img src="~/assets/images/banner-icon/icon3.png" alt="Icon">
+                    </div>
+                    <div class="banner-content media-body">
+                        <h3 class="banner-title">100% Money Back</h3>
+                        <p>You have 30 days to Return</p>
+                    </div>
+                </div> <!-- single features banner -->
+                <div class="single-features-banner d-flex">
+                    <div class="banner-icon">
+                        <img src="~/assets/images/banner-icon/icon4.png" alt="Icon">
+                    </div>
+                    <div class="banner-content media-body">
+                        <h3 class="banner-title">90 Days Return</h3>
+                        <p>If goods have problems</p>
+                    </div>
+                </div> <!-- single features banner -->
+                <div class="single-features-banner d-flex">
+                    <div class="banner-icon">
+                        <img src="~/assets/images/banner-icon/icon5.png" alt="Icon">
+                    </div>
+                    <div class="banner-content media-body">
+                        <h3 class="banner-title">Payment Secure</h3>
+                        <p>We ensure secure payment</p>
+                    </div>
+                </div> <!-- single features banner -->
+            </div> <!-- features banner wrapper -->
+        </div> <!-- container -->
+    </section>
+
+    <!--====== Features Banner Part Ends ======-->
+

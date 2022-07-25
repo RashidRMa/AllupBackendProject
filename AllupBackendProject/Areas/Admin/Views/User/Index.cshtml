@@ -1,0 +1,66 @@
+﻿@model List<AppUser>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    int count = 0;
+}
+
+<div class="container">
+    <div class="row">
+    <div class="col-lg-12 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">User Table</h4>
+                  <div>
+                      <form asp-action="index">
+                          <div class="form-group">
+                            <label for="exampleInputEmail1">Username</label>
+                            <input name="search" type="text" class="form-control" id="exampleInputEmail1" autocomplete="off" placeholder="Enter username">
+                          </div>
+                          <button type="submit" class="btn btn-primary">Search</button>
+                        </form>
+                  </div>
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>No</th>
+                          <th>Username</th>
+                          <th>Firstname</th>
+                          <th>Lastname</th>
+                          <th>Lastname</th>
+                          <th>Settings</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        @foreach (var item in Model)
+                            {
+                                count++;
+                               <tr>
+                                    <td>@count</td>
+                                    <td>@item.UserName</td>
+                                    <td>@item.FirstName</td>
+                                    <td>@item.LastName</td>
+                                    <td>@item.Email</td>
+                                    <td class="d-flex">
+                                        <a asp-action="update" asp-route-id="@item.Id">
+                                            <i class="mdi mdi-refresh icon-md" @*@(User.Identity.Name==item.Fullname?"style=display:none;":"")*@></i>
+                                        </a>
+                                        <a asp-action="detail" asp-route-id="@item.Id">
+                                            <i class="mdi mdi-file-document icon-md"></i>
+                                        </a>
+                                        <a asp-action="delete" asp-route-id="@item.Id">
+                                            <i class="mdi mdi-delete icon-md" @*@(User.Identity.Name==item.Fullname?"style=display:none;":"")*@></i>
+                                        </a>
+                                    </td>
+                               </tr>
+                            }
+                        
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+</div>
+</div>

@@ -6,6 +6,8 @@ namespace AllupBackendProject.ViewModels
     public class RoleVM
     {
         public string FullName { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
 
         public List<IdentityRole> Roles { get; set; }
 

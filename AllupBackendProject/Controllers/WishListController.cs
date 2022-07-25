@@ -23,7 +23,11 @@ namespace AllupBackendProject.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            List<WishList> wishLists = _context.WishLists.Where(x=> x.UserId == currentUserId).Include(p=> p.Product).ThenInclude(x=> x.ProductImages).ToList();
+            
+            return View(wishLists);
         }
 
         public ActionResult AddTo(int id)
@@ -56,6 +60,7 @@ namespace AllupBackendProject.Controllers
 
                 _context.WishLists.Add(newWishList);
                 _context.SaveChanges();
+                ViewBag.WishCount = _context.WishLists.Count();
             }
 
 
@@ -77,8 +82,24 @@ namespace AllupBackendProject.Controllers
             //}
 
 
-
+            
             return RedirectToAction("index", "home" ); //, new { id = id }
         }
+
+        public ActionResult Remove(int id)
+        {
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var listwish = _context.WishLists.Where(x => x.UserId == currentUserId).ToList();
+
+            var wish = listwish.Find(x => x.ProductId == id);
+
+            _context.WishLists.Remove(wish);
+            _context.SaveChanges();
+
+
+            return RedirectToAction("index", "wishlist");
+        }
+
     }
 }

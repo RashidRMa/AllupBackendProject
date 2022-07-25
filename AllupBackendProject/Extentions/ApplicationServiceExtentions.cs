@@ -1,6 +1,8 @@
 ﻿using AllupBackendProject.DAL;
 using AllupBackendProject.Helpers;
+using AllupBackendProject.Interfaces;
 using AllupBackendProject.Models;
+using AllupBackendProject.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -31,6 +33,7 @@ namespace AllupBackendProject.Extentions
                 opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
                 opt.Lockout.AllowedForNewUsers = true;
             }).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
+            services.AddScoped<IPhotoService, PhotoService>();
 
             return services;
         }

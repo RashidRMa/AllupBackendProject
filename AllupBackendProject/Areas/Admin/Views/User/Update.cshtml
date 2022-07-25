@@ -1,0 +1,36 @@
+﻿@model RoleVM
+@{
+    ViewData["Title"] = "Update";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+ <div>
+        <form method="post">
+            <h1>@Model.FullName</h1>
+            <div class="form-group">
+                <input type="hidden" name="id" value="@Model.UserId" />
+              @foreach (var item in Model.Roles)
+            {
+                @*if (Model.UserRoles.FirstOrDefault(x=>x==item.ToString())==item.ToString())
+                {
+                    <div>
+                    <input class="form-check-input" type="checkbox" checked /> @item
+                    </div>
+                }
+                else
+                {
+                    <div>
+                    <input class="form-check-input" type="checkbox"  /> @item
+                    </div>
+                }*@
+
+                <div>
+                    <input value="@item.ToString()" name="roles" class="form-check-input" type="checkbox" @(Model.UserRoles.Contains(item.ToString())? "checked='checked'":"") /> @item
+                    </div>
+                
+            }
+            </div>
+            <button type="submit" class="btn btn-primary">Update</button>
+          </form>
+    </div>
+

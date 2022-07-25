@@ -1,0 +1,39 @@
+﻿@model AppUser
+@{
+    ViewData["Title"] = "Detail";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="col-lg-6 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Hoverable Table</h4>
+                  <p class="card-description">
+                    
+                  </p>
+                  <div class="table-responsive">
+                    <table class="table table-hover">
+                      <thead>
+                        <tr>
+                          <th>No</th>
+                          <th>Firstname</th>
+                          <th>Lastname</th>
+                          <th>Username</th>
+                          <th>Email</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>1</td>
+                          <td>@Model.FirstName</td>
+                          <td>@Model.LastName</td>
+                          <td>@Model.UserName</td>
+                          <td>@Model.Email</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
