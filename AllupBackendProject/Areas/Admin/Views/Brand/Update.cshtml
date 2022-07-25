@@ -1,0 +1,29 @@
+﻿@model Brand
+@{
+    ViewData["Title"] = "Update";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="col-12 grid-margin stretch-card">
+  <div class="card">
+     <div class="card-body">
+         <h4 class="card-title">Create Table</h4>
+           <form class="forms-sample"  method="post">
+               <div class="form-group">
+                  <label asp-for="Id"></label>
+                    @*<input asp-for="Name" class="form-control" placeholder="Name" autocomplete="off" spellcheck="false">*@
+                    <input asp-for="Id" class="form-control" placeholder="Id" aria-label="Disabled input example" disabled>
+                      
+               </div>
+               <div class="form-group">
+                  <label asp-for="Name"></label>
+                    <input asp-for="Name" class="form-control" placeholder="Name" autocomplete="off" spellcheck="false">
+                      <span class="text-danger" asp-validation-for="Name"></span>
+               </div>
+                    <button type="submit" class="btn btn-primary me-2" >Submit</button>
+                    <a class="btn btn-dark" asp-controller="brand" asp-action="index">Go back</a>
+           </form>
+     </div>
+  </div>                       
+</div>
+
