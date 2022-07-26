@@ -15,6 +15,7 @@ namespace AllupBackendProject.Models
         public string ImageUrl { get; set; }
         [NotMapped]
         public IFormFile Image { get; set; }
+        public string PublicId { get; set; }
         public bool IsDeleted { get; set; }
         public Nullable<DateTime> CreatedAt { get; set; } = DateTime.Now;
         public Nullable<DateTime> DeletedAt { get; set; }
