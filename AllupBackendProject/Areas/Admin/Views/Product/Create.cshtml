@@ -6,7 +6,7 @@
 <div class="col-12 grid-margin stretch-card">
   <div class="card">
     <div class="card-body">
-      <h4 class="card-title">Create Table</h4>
+      <h4 class="card-title">Create Product</h4>
       <form class="forms-sample"  method="post" enctype="multipart/form-data">
         <div class="form-group">
           <label asp-for="Name"></label>
@@ -25,16 +25,29 @@
         </div>
         <div class="form-group">
         <label asp-for="Category"></label>
-        <select asp-items="@ViewBag.Categories" asp-for="CategoryId" class="form-select" aria-label="Default select example">
+        <select asp-for="CategoryId" class="form-select" aria-label="Default select example">
+          <option selected>Open this select menu</option>
+          @foreach (var item in ViewBag.Categories)
+         {
+             if (item.ParentId!=null)
+                {
+                   <option value="@item.Id">@item.Name</option>
+                }
+         }
+        </select>
+        </div>
+        <div class="form-group">
+        <label asp-for="Brand"></label>
+        <select  asp-items="@ViewBag.Qwe" asp-for="BrandId" class="form-select" aria-label="Default select example">
           <option selected>Open this select menu</option>
           
         </select>
         </div>
-       @* <div class="form-group">
-          <label asp-for=""></label>
-          <input asp-for="Photo" class="form-control">
-          <span class="text-danger" asp-validation-for="Photo"></span>
-        </div>*@
+        <div class="form-group">
+          <label asp-for="Image"></label>
+          <input asp-for="Image" class="form-control">
+          <span class="text-danger" asp-validation-for="Image"></span>
+        </div>
 
 
         <button type="submit" class="btn btn-primary me-2" >Submit</button>

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AllupBackendProject.Models
 {
@@ -27,7 +28,8 @@ namespace AllupBackendProject.Models
 
 
 
-
+        [NotMapped]
+        public IFormFile Image { get; set; }
         public int CategoryId { get; set; }
         public Category Category { get; set; }
 
