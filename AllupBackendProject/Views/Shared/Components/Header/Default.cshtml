@@ -17,7 +17,14 @@
                                 <li><a asp-controller="account" asp-action="detail">Hi, @User.Identity.Name</a></li>
                                 <li><a asp-controller="account" asp-action="logout"> Logout</a></li>
 
-                                <li><a asp-controller="wishlist" asp-action="index" ><i class="fal fa-heart"></i> Wishlist(0)</a></li>
+                                @if (ViewBag.WishCount > 0)
+                               {
+                                    <li><a asp-controller="wishlist" asp-action="index"  ><i class="fal fa-heart"></i> Wishlist(<span style="color: red; font-weight: bolder">@ViewBag.WishCount</span>)</a></li>
+                                }
+                                else
+                                {
+                                    <li><a asp-controller="wishlist" asp-action="index"  ><i class="fal fa-heart"></i> Wishlist(<span style="font-weight: bolder">@ViewBag.WishCount</span>)</a></li>
+                                }
                                 <li>
                                     <div class="dropdown">
                                         <button type="button" id="setting" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Setting <i class="icon ion-chevron-down"></i></button>
@@ -68,7 +75,7 @@
                         <div class="col-lg-3">
                             <div class="header-logo-contact d-flex  ">
                                 <div class="desktop-logo">
-                                    <a href="index.html">
+                                    <a asp-controller="home" asp-action="index">
                                         <img src="~/assets/images/logo.png" alt="Logo">
                                     </a>
                                 </div> <!-- desktop logo -->

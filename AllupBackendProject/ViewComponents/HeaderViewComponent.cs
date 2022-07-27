@@ -29,7 +29,12 @@ namespace AllupBackendProject.ViewComponents
             homeVM.Blogs = await _context.Blogs.ToListAsync();
             homeVM.Banners = await _context.Banners.ToListAsync();
             homeVM.Products = await _context.Products.ToListAsync();
-            
+
+            var currentUserId = _userManager.GetUserId(Request.HttpContext.User);
+
+            IQueryable<WishList> wishList = _context.WishLists.Where(w => w.UserId == currentUserId);
+            ViewBag.WishCount = wishList.Count();
+
 
             return View(await Task.FromResult(homeVM)); 
         }
