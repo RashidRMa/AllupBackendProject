@@ -33,14 +33,14 @@
                         <div class="product-single-image">
                           
                                <div class="single-image">
-                                    <img src="~/assets/images/product-quick/@Model.Product.ProductImages.Find(p=>p.IsMain == true).ImageUrl" alt="">
+                                    <img src="@Model.Product.ProductImages.Find(p=>p.IsMain == true).ImageUrl" alt="">
                                 </div>
                            
                         </div>
                         <div class="product-single-thumb-image">
                             <ul class="product-single-thumb">
                                
-                                   <li><img src="~/assets/images/product-quick/@Model.Product.ProductImages.Find(p=>p.IsMain == true).ImageUrl" alt="product"></li>
+                                   <li><img src="@Model.Product.ProductImages.Find(p=>p.IsMain == true).ImageUrl" alt="product"></li>
                                
                             </ul>
                         </div>

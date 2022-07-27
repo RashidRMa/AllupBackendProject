@@ -24,7 +24,7 @@
                         @foreach (var item in Model)
                         {
                             <tr style="width: 100%;">
-                                <td><img src="~/assets/images/product/@item.ImgUrl" style="width: 70px; height: 70px;"></td>
+                                <td><img src="@item.ImgUrl" style="width: 70px; height: 70px;"></td>
                                 <td style="padding-top: 30px;">@item.Name</td>
                                 <td style="padding-top: 30px;">$@item.Price</td>
                                 <td style="padding: 30px; position: relative;"><span>@item.Count</span><div style="width: 25px; height: 25px; border-radius: 50%; background-color: rgb(222, 222, 222); text-align: center; cursor: pointer; position: absolute; left: -5px; top: 30px;"><a asp-controller="basket" asp-action="minus" asp-route-id="@item.Id">-</a></div><div style="width: 25px; height: 25px; border-radius: 50%; background-color: rgb(222, 222, 222); text-align: center; cursor: pointer; position: absolute; left: 50px; top: 30px;"><a asp-controller="basket" asp-action="plus" asp-route-id="@item.Id">+</a></div></td>

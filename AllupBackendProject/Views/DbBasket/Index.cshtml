@@ -46,12 +46,12 @@
                                     <tr>
                                         <td>
                                             <div class="product-image">
-                                                <img height="100px" width="100px" src="~/assets/images/product/@item.Product.ProductImages.Find(x=> x.IsMain == true).ImageUrl" alt="cart">
+                                                <img height="100px" width="100px" src="@item.Product.ProductImages.Find(x=> x.IsMain == true).ImageUrl" alt="cart">
                                             </div>
                                         </td>
                                         <td>
                                             <div class="product-title">
-                                                <h4 class="title"><a href="single-product.html">@item.Product.Name</a></h4>
+                                                <h4 class="title"><a asp-controller="shop" asp-action="detail" asp-route-id="@item.ProductId" >@item.Product.Name</a></h4>
                                             </div>
                                         </td>
                                         <td>
