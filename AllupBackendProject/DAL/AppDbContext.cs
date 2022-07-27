@@ -29,6 +29,7 @@ namespace AllupBackendProject.DAL
         public DbSet<TagProduct> TagProducts { get; set; }
         public DbSet<Testimonial> Testimonials { get; set; }
         public DbSet<WishList> WishLists { get; set; }
+        public DbSet<Basket> Basket { get; set; }
 
 
     }

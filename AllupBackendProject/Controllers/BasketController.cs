@@ -2,6 +2,7 @@
 using AllupBackendProject.Models;
 using AllupBackendProject.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,24 @@ namespace AllupBackendProject.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            List<BasketVM> products = GetCookBasket();
+
+            if (products != null)
+            {
+                foreach (var item in products)
+                {
+                    Product dbProduct = _context.Products.Include(p => p.ProductImages).FirstOrDefault(p => p.Id == item.Id);
+                    item.Name = dbProduct.Name;
+                    item.Price = dbProduct.Price;
+                    item.ImgUrl = dbProduct.ProductImages.FirstOrDefault(i => i.IsMain == true).ImageUrl;
+                    item.CategoryId = dbProduct.CategoryId;
+                }
+            }
+            else
+            {
+                products = new List<BasketVM>();
+            }
+            return View(products);
         }
 
         public IActionResult AddItem(int? id, string ReturnUrl)
@@ -110,6 +128,60 @@ namespace AllupBackendProject.Controllers
             if (ReturnUrl != null) return Redirect(ReturnUrl);
 
             return RedirectToAction("index", "shop");
+        }
+
+
+        public IActionResult Plus(int id)
+        {
+            string basket = Request.Cookies["basket"];
+            List<BasketVM> products = JsonConvert.DeserializeObject<List<BasketVM>>(basket);
+            BasketVM increasePro = products.Find(p => p.Id == id);
+            if (increasePro.Count < _context.Products.FirstOrDefault(p => p.Id == id).StockCount)
+            {
+                increasePro.Count++;
+            }
+            Response.Cookies.Append("basket", JsonConvert.SerializeObject(products));
+            return RedirectToAction("index", "basket");
+        }
+
+        public IActionResult Minus(int id)
+        {
+            string basket = Request.Cookies["basket"];
+            List<BasketVM> products = JsonConvert.DeserializeObject<List<BasketVM>>(basket);
+            BasketVM decreasePro = products.Find(p => p.Id == id);
+            if (decreasePro.Count > 1)
+            {
+                decreasePro.Count--;
+            }
+            else
+            {
+                products.Remove(decreasePro);
+            }
+            Response.Cookies.Append("basket", JsonConvert.SerializeObject(products));
+            return RedirectToAction("index", "basket");
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        public List<BasketVM> GetCookBasket()
+        {
+            string basket = Request.Cookies["basket"];
+
+            List<BasketVM> products = basket != null ? JsonConvert.DeserializeObject<List<BasketVM>>(basket)
+                : new List<BasketVM>();
+
+            return products;
         }
     }
 }

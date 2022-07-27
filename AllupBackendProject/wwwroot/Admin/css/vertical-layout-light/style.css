@@ -31278,3 +31278,31 @@ div.tagsinput span.tag a {
 }
 
 /*# sourceMappingURL=../maps/vertical-layout-light/style.css.map */
+
+/*===== All Pagination Style =====*/
+.pagination {
+    padding: 15px 10px;
+    background: #f2f2f2;
+}
+
+    .pagination li {
+        margin: 0 3px;
+    }
+
+        .pagination li a {
+            font-weight: 400;
+            color: #fff;
+            padding: 0;
+            height: 36px;
+            line-height: 36px;
+            background: #c2c2c2;
+            font-size: 15px;
+            display: inline-block;
+            width: 36px;
+            border-radius: 100%;
+            text-align: center;
+        }
+
+        .pagination li:hover a, .pagination li.active a {
+            background-color: #000;
+        }

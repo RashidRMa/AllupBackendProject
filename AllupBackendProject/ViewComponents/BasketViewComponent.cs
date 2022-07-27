@@ -1,6 +1,7 @@
 ﻿using AllupBackendProject.DAL;
 using AllupBackendProject.Models;
 using AllupBackendProject.ViewModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -14,51 +15,54 @@ namespace AllupBackendProject.ViewComponents
     public class BasketViewComponent:ViewComponent
     {
         private readonly AppDbContext _context;
+        private readonly UserManager<AppUser> _userManager;
 
-        public BasketViewComponent(AppDbContext context)
+        public BasketViewComponent(AppDbContext context, UserManager<AppUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            string basket = Request.Cookies["basket"];
+            var currentUserId = _userManager.GetUserId(Request.HttpContext.User);
 
-            List<BasketVM> products;
+            double totalPrice = 0;
+            int totalCount = 0;
 
-            if (basket != null)
+            Basket basket;
+
+            if (currentUserId == null)
             {
-                products = JsonConvert.DeserializeObject<List<BasketVM>>(basket);
-
-                foreach (var item in products)
-                {
-                    Product product = _context.Products.Include(p => p.ProductImages).FirstOrDefault(p => p.Id == item.Id);
-                    item.Price = product.Price;
-                    item.Name = product.Name;
-                    item.ImgUrl = product.ProductImages.Find(p => p.IsMain == true).ImageUrl;
-                }
-
+                basket = new Basket();
             }
             else
             {
-                products = new List<BasketVM>();
-            }
+                basket = _context.Basket
+                .Include(b => b.BasketItems)
+                .ThenInclude(b => b.Product)
+                .ThenInclude(b => b.ProductImages)
+                .FirstOrDefault(b => b.UserId == currentUserId);
 
-            double total = 0;
-
-            if (products.Count > 0)
-            {
-                foreach (BasketVM pr in products)
+                if (basket == null)
                 {
-                    total += pr.Price * pr.Count;
-                    pr.SubTotal += pr.Price * pr.Count;
-                    pr.BasketCount += pr.Count;
+                    basket = new Basket() { UserId = currentUserId };
+                    basket.BasketItems = new List<BasketItem>();
+                    _context.Add(basket);
+                    _context.SaveChanges();
+                }
+
+                foreach (var item in basket.BasketItems)
+                {
+                    totalPrice += item.Count * item.Product.Price;
+                    totalCount += item.Count;
                 }
             }
-            ViewBag.Total = String.Format("{0:0.00}", total); 
-            
 
-            return View(await Task.FromResult(products));
+            ViewBag.TotalPrice = totalPrice;
+            ViewBag.TotalCount = totalCount;
+
+            return View(await Task.FromResult(basket));
         }
     }
 }

@@ -21,7 +21,6 @@ namespace AllupBackendProject.Areas.Admin.Controllers
         private readonly IPhotoService _photoService;
         private readonly IWebHostEnvironment _env;
 
-
         public CategoryController(AppDbContext context, IPhotoService photoService, IWebHostEnvironment env)
         {
             _context = context;

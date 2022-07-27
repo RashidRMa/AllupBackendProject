@@ -17,7 +17,7 @@
                                 <li><a asp-controller="account" asp-action="detail">Hi, @User.Identity.Name</a></li>
                                 <li><a asp-controller="account" asp-action="logout"> Logout</a></li>
 
-                                <li><a href="wishlist.html"><i class="fal fa-heart"></i> Wishlist(0)</a></li>
+                                <li><a asp-controller="wishlist" asp-action="index" ><i class="fal fa-heart"></i> Wishlist(0)</a></li>
                                 <li>
                                     <div class="dropdown">
                                         <button type="button" id="setting" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Setting <i class="icon ion-chevron-down"></i></button>

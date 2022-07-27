@@ -1,9 +1,75 @@
-﻿
+﻿@model Basket
+
+
+<div class="header-cart">
+    <div class="cart-btn">
+        <a asp-controller="dbbasket" asp-action="index">
+            <i class="icon ion-bag"></i>
+            <span class="text">Cart :</span>
+            <span class="total">$@ViewBag.TotalPrice</span>
+            <span class="count">@ViewBag.TotalCount</span>
+        </a>
+    </div>
+    <div class="mini-cart">
+        <ul class="cart-items">
+            @if (Model.BasketItems != null)
+            {
+                foreach (var item in Model.BasketItems)
+                {
+                <li>
+                    <div class="single-cart-item d-flex">
+                        <div class="cart-item-thumb">
+                            <a href="single-product.html"><img src="~/assets/images/product/@item.Product.ProductImages.Find(p => p.IsMain == true).ImageUrl" alt="product"></a>
+                            <span class="product-quantity">@item.Count</span>
+                        </div>
+                        <div class="cart-item-content media-body">
+                            <h5 class="product-name"><a asp-controller="product" asp-action="detail">@item.Product.Name</a></h5>
+                            <span class="product-price">€@item.Product.Price</span>
+                            <a asp-controller="dbbasket" asp-action="remove" asp-route-id="@item.Product.Id" class="product-close"><i class="fal fa-times"></i></a>
+                        </div>
+                    </div>
+                </li>
+                }
+            }
+            else
+            {
+                <h3>Empty</h3>
+            }
+
+        </ul>
+        <div class="price_content">
+            <div class="cart-subtotals">
+                <div class="products price_inline">
+                    <span class="label">Subtotal</span>
+                    <span class="value">$@ViewBag.TotalPrice</span>
+                </div>
+                <div class="shipping price_inline">
+                    <span class="label">Shipping</span>
+                    <span class="value">€0.00</span>
+                </div>
+                <div class="tax price_inline">
+                    <span class="label">Taxes</span>
+                    <span class="value">€0.00</span>
+                </div>
+            </div>
+            <div class="cart-total price_inline">
+                <span class="label">Total</span>
+                <span class="value">$@ViewBag.TotalPrice</span>
+            </div>
+        </div> <!-- price content -->
+        <div class="checkout text-center">
+            <a asp-controller="basket" asp-action="sale" class="main-btn">Checkout!</a>
+        </div>
+    </div> <!-- mini cart -->
+</div>
+
+
+@*
 @model  List<BasketVM>
 
                 <div class="header-cart">
                                     <div class="cart-btn">
-                                        <a href="#">
+                                        <a asp-controller="dbbasket" asp-action="index" >
                                             <i class="icon ion-bag"></i>
                                             <span class="text">Cart :</span>
                                             <span class="total">$@ViewBag.Total</span>
@@ -54,4 +120,4 @@
                                             <a asp-controller="basket" asp-action="sale" class="main-btn">Checkout</a>
                                         </div>
                                     </div> 
-                                </div>
+                                </div>*@

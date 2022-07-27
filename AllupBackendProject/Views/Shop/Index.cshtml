@@ -89,7 +89,7 @@
                                                 <img class="second-image" src="~/assets/images/product/@item.ProductImages.Find(p=>p.IsMain == false).ImageUrl" alt="product">
                                             </a>
                                             <ul class="product-meta">
-                                                <li><a asp-controller="basket" asp-action="AddItem" asp-route-id="@item.Id"><i class="icon ion-bag"></i></a></li>
+                                                <li><a asp-controller="dbbasket" asp-action="AddItem" asp-route-id="@item.Id"><i class="icon ion-bag"></i></a></li>
                                                 <li><a href="#"><i class="icon ion-android-favorite-outline"></i></a></li>
                                                 <li><a href="#"><i class="icon ion-android-options"></i></a></li>
                                                 <li><a data-toggle="modal" data-target="#productQuickModal" href="#"><i class="icon ion-android-open"></i></a></li>
@@ -152,7 +152,7 @@
                                             </div>
                                             <p> @item.Desc</p>
                                             <ul class="product-meta">
-                                                <li><a asp-controller="basket" asp-action="AddItem" asp-route-id="@item.Id"><i class="icon ion-bag"></i></a></li>
+                                                <li><a asp-controller="dbbasket" asp-action="AddItem" asp-route-id="@item.Id"><i class="icon ion-bag"></i></a></li>
                                                 <li><a asp-controller="wishlist" asp-action="addto"><i class="icon ion-android-favorite-outline"></i></a></li>
                                                 <li><a href="#"><i class="icon ion-android-options"></i></a></li>
                                                 <li><a data-toggle="modal" data-target="#productQuickModal" href="#"><i class="icon ion-android-open"></i></a></li>

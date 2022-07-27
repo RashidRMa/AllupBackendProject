@@ -1,8 +1,11 @@
-﻿using AllupBackendProject.Models;
+﻿using AllupBackendProject.DAL;
+using AllupBackendProject.Models;
 using AllupBackendProject.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using static AllupBackendProject.Helpers.Helper;
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
@@ -14,12 +17,14 @@ namespace AllupBackendProject.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly AppDbContext _context;
 
-        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, RoleManager<IdentityRole> roleManager)
+        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, RoleManager<IdentityRole> roleManager, AppDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
+            _context = context;
         }
 
         public IActionResult Index()
@@ -59,6 +64,20 @@ namespace AllupBackendProject.Controllers
 
 
             await _userManager.AddToRoleAsync(user, UserRoles.Member.ToString());
+
+            Basket basket = _context.Basket
+                .Include(b => b.BasketItems)
+                .ThenInclude(b => b.Product)
+                .ThenInclude(b => b.ProductImages)
+                .FirstOrDefault(b => b.UserId == user.Id);
+
+            if (basket == null)
+            {
+                basket = new Basket() { UserId = user.Id };
+                _context.Add(basket);
+                _context.SaveChanges();
+                return RedirectToAction("index", "shop");
+            }
 
             return RedirectToAction("register", "account");
         }

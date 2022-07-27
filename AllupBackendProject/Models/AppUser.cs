@@ -9,7 +9,7 @@ namespace AllupBackendProject.Models
         public string LastName { get; set; }
 
         public List<Order> Orders { get; set; }
-        public List<BasketItem> BasketItems { get; set; }
+        public Basket Basket { get; set; }
         public List<WishList> WishLists { get; set; }
     }
 }
