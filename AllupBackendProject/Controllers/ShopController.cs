@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace AllupBackendProject.Controllers
@@ -74,26 +75,32 @@ namespace AllupBackendProject.Controllers
         [HttpPost]
         public async Task<IActionResult> AddComment(int productId, Review review)
         {
-            if (review.SenderName == null || review.SenderEmail == null) return View();
+            //if (review.SenderName == null || review.SenderEmail == null) return View();
 
-            AppUser user = new AppUser();
+            
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            AppUser user = await _userManager.FindByIdAsync(currentUserId);
+
+            Review newReview = new Review();
+
+
             if (User.Identity.IsAuthenticated)
             {
-                user = await _userManager.FindByNameAsync(User.Identity.Name);
+                newReview.SenderEmail = user.Email;
+                newReview.SenderName = user.FirstName + " " + user.LastName;
+                newReview.SendText = review.SendText;
+                newReview.ProductId = productId;
             }
             else
             {
-                return RedirectToAction("login", "account");
+                newReview.SenderName=review.SenderName;
+                newReview.SendText = review.SendText;
+                newReview.SenderEmail = review.SenderEmail;
+                newReview.ProductId = productId;
             }
 
-            Review newReview = new Review
-            {
-                SenderEmail = review.SenderEmail,
-                SenderName = review.SenderName,
-                SendText = review.SendText,
-                ProductId = productId,
-
-            };
+            
 
             await _context.AddAsync(newReview);
             _context.SaveChanges();

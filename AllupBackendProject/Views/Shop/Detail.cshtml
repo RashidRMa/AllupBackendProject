@@ -280,6 +280,19 @@
                                     </ul>
                                 </div>
                                 <div class="row">
+                                    @if (User.Identity.IsAuthenticated)
+                                {
+                                    
+                                    <div class="col-md-12">
+                                        <div class="single-form">
+                                            <label asp-for="@Model.Review.SenderName">Your Review:</label>
+                                            <textarea asp-for="@Model.Review.SendText" placeholder="Write a review"></textarea>
+                                        </div>
+                                    </div>
+                                   
+                                }
+                                else
+                                {
                                     <div class="col-md-6">
                                         <div class="single-form">
                                             <label asp-for="@Model.Review.SenderName" >Name:</label>
@@ -298,12 +311,13 @@
                                             <textarea asp-for="@Model.Review.SendText" placeholder="Write a review"></textarea>
                                         </div>
                                     </div>
+                                }
                                     <div class="col-md-12">
                                         <div class="single-form">
                                             <button type="submit" class="main-btn">Add Review</button>
                                         </div>
                                     </div>
-                                </div>
+                            </div>
                             </form>
                         </div>
                     </div> <!-- Rating Content -->
