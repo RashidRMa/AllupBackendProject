@@ -147,6 +147,7 @@ namespace AllupBackendProject.Areas.Admin.Controllers
             dbProduct.ProductImages = product.ProductImages;
             dbProduct.UptadetAt = DateTime.Now;
             dbProduct.Desc = product.Desc;
+            dbProduct.NewArrival = true;
             if (dbProduct.StockCount >0)
             {
                 dbProduct.InStock = true;
