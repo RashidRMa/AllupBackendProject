@@ -282,25 +282,25 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="single-form">
-                                            <label >Name:</label>
-                                            <input type="text" placeholder="Name">
+                                            <label asp-for="@Model.Review.SenderName" >Name:</label>
+                                            <input asp-for="@Model.Review.SenderName" placeholder="Name">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="single-form">
-                                            <label>Email:</label>
-                                            <input type="email" placeholder="Email">
+                                            <label asp-for="@Model.Review.SenderName">Email:</label>
+                                            <input asp-for="@Model.Review.SenderEmail" placeholder="Email">
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="single-form">
-                                            <label>Your Review:</label>
-                                            <textarea placeholder="Write a review"></textarea>
+                                            <label asp-for="@Model.Review.SenderName">Your Review:</label>
+                                            <textarea asp-for="@Model.Review.SendText" placeholder="Write a review"></textarea>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="single-form">
-                                            <button class="main-btn">Add Review</button>
+                                            <button type="submit" class="main-btn">Add Review</button>
                                         </div>
                                     </div>
                                 </div>

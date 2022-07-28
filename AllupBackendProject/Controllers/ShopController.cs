@@ -2,6 +2,7 @@
 using AllupBackendProject.Helpers;
 using AllupBackendProject.Models;
 using AllupBackendProject.ViewModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -13,10 +14,12 @@ namespace AllupBackendProject.Controllers
     public class ShopController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly UserManager<AppUser> _userManager;
 
-        public ShopController(AppDbContext context)
+        public ShopController(AppDbContext context, UserManager<AppUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         public async Task<IActionResult> Index(int page = 1, int pageSize = 8)
@@ -66,6 +69,36 @@ namespace AllupBackendProject.Controllers
             
             return View(shopVM);
 
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddComment(int productId, Review review)
+        {
+            if (review.SenderName == null || review.SenderEmail == null) return View();
+
+            AppUser user = new AppUser();
+            if (User.Identity.IsAuthenticated)
+            {
+                user = await _userManager.FindByNameAsync(User.Identity.Name);
+            }
+            else
+            {
+                return RedirectToAction("login", "account");
+            }
+
+            Review newReview = new Review
+            {
+                SenderEmail = review.SenderEmail,
+                SenderName = review.SenderName,
+                SendText = review.SendText,
+                ProductId = productId,
+
+            };
+
+            await _context.AddAsync(newReview);
+            _context.SaveChanges();
+
+            return RedirectToAction("detail", new { id = productId });
         }
 
 

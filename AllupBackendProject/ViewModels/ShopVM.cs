@@ -10,6 +10,7 @@ namespace AllupBackendProject.ViewModels
         public Product Product { get; set; }
         public List<Banner> Banners { get; set; }
         public List<Review> Reviews { get; set; }
+        public Review Review { get; set; }
 
 
     }
