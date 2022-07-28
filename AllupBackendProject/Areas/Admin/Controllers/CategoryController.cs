@@ -249,6 +249,7 @@ namespace AllupBackendProject.Areas.Admin.Controllers
             dbCategory.PublicId = newresult.PublicId;
 
 
+
             await _context.SaveChangesAsync();
 
             return RedirectToAction("Index");

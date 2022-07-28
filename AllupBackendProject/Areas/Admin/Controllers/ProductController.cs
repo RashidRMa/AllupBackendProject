@@ -61,7 +61,7 @@ namespace AllupBackendProject.Areas.Admin.Controllers
             var result = await _photoService.AddPhotoAsync(product.Image);
 
             if (result.Error != null) return BadRequest(result.Error.Message);
-
+           
             Product newProduct = new Product
             {
                 Name = product.Name,
@@ -71,6 +71,8 @@ namespace AllupBackendProject.Areas.Admin.Controllers
                 CreatedAt = DateTime.Now,
                 Price = product.Price,
                 StockCount = product.StockCount,
+                Desc = product.Desc,
+                ProductCode = RandomString(5),
 
             };
             List<ProductImage> productImages = new List<ProductImage>();
@@ -109,5 +111,75 @@ namespace AllupBackendProject.Areas.Admin.Controllers
             return RedirectToAction("Index");
 
         }
+
+        public IActionResult Update(int? id)
+        {
+            ViewBag.Categories = _context.Categories.ToList();
+            ViewBag.Qwe = new SelectList(_context.Brands.ToList(), "Id", "Name");
+            Product product = _context.Products.Find(id);
+            return View(product);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Update(Product product)
+        {
+            Product dbProduct = await _context.Products.FindAsync(product.Id);
+            ProductImage dbProductImage = await _context.ProductImages.FirstOrDefaultAsync(x => x.ProductId == dbProduct.Id);
+
+            if(dbProduct == null) return NotFound();
+
+            var result = await _photoService.DeletePhotoAsync(dbProductImage.PublicId);
+
+            var newResult = await _photoService.AddPhotoAsync(product.Image);
+
+            if (result.Error != null) return BadRequest(result.Error.Message);
+            if (newResult.Error != null) return BadRequest(newResult.Error.Message);
+
+            
+            
+
+            dbProduct.Name = product.Name;
+            dbProduct.Price = product.Price;
+            dbProduct.StockCount = product.StockCount;
+            dbProduct.CategoryId = product.CategoryId;
+            dbProduct.BrandId = product.BrandId;
+            dbProduct.ProductImages = product.ProductImages;
+            dbProduct.UptadetAt = DateTime.Now;
+            dbProduct.Desc = product.Desc;
+            if (dbProduct.StockCount >0)
+            {
+                dbProduct.InStock = true;
+            }
+            else
+            {
+                dbProduct.InStock = false;
+            }
+            
+
+
+
+            List<ProductImage> productImages = new List<ProductImage>();
+            dbProductImage.ImageUrl = newResult.SecureUrl.AbsoluteUri;
+            dbProductImage.PublicId = dbProductImage.PublicId;
+            dbProductImage.ProductId = dbProduct.Id;
+            dbProductImage.IsMain = true;
+
+            productImages.Add(dbProductImage);
+            dbProduct.ProductImages = productImages;
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index");
+        }
+
+        public string RandomString(int length)
+        {
+            Random random = new Random();
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(chars, length)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+
     }
 }

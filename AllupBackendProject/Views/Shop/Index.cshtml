@@ -86,7 +86,7 @@
                                         <div class="product-image">
                                             <a asp-action="detail" asp-route-id="@item.Id">
                                                 <img class="first-image" src="@item.ProductImages.Find(p=>p.IsMain == true).ImageUrl" alt="product">
-                                                <img class="second-image" src="@item.ProductImages.Find(p=>p.IsMain == false).ImageUrl" alt="product">
+                                                @*<img class="second-image" src="@item.ProductImages.Find(p=>p.IsMain == false).ImageUrl" alt="product">*@
                                             </a>
                                             <ul class="product-meta">
                                                 <li><a asp-controller="dbbasket" asp-action="AddItem" asp-route-id="@item.Id"><i class="icon ion-bag"></i></a></li>
@@ -127,7 +127,7 @@
                                         <div class="product-image">
                                             <a href="single-product.html">
                                                 <img class="first-image" src="@item.ProductImages.Find(p=>p.IsMain == true).ImageUrl" alt="product">
-                                                <img class="second-image" src="@item.ProductImages.Find(p=>p.IsMain == false).ImageUrl" alt="product">
+                                                @*<img class="second-image" src="@item.ProductImages.Find(p=>p.IsMain == false).ImageUrl" alt="product">*@
                                             </a>
                                             @if (item.PercentageDiscount != null)
                                             {

@@ -7,7 +7,7 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
-    int count = 0;
+    
 }
 
 <div class="container">
@@ -24,7 +24,7 @@
                       <thead>
                         <tr>
                           <th>Settings</th>
-                          <th>No</th>
+                          <th>ProdCode</th>
                           <th>Prod ID</th>
                           <th>Image</th>
                           <th>Product Name</th>
@@ -41,7 +41,7 @@
                       <tbody>
                         @foreach (var item in Model)
                             {
-                                count++;
+                                
                                <tr>
                                    <td class="d-flex">
                                         <a asp-action="update" asp-route-id="@item.Id">
@@ -54,9 +54,9 @@
                                             <i class="mdi mdi-delete icon-md"></i>
                                         </a>
                                     </td>
-                                    <td>@count</td>
+                                    <td>@item.ProductCode</td>
                                     <td>@item.Id</td>
-                                    <td><img class="first-image" src="~/assets/images/product/@item.ProductImages.Find(p=>p.IsMain == true).ImageUrl" alt="product"></td>
+                                    <td><img class="first-image" src="@item.ProductImages.Find(p=>p.IsMain == true).ImageUrl" alt="product"></td>
                                     <td>@item.Name</td>
                                     <td>@item.Category.Name</td>
                                     <td>@item.Price</td>
