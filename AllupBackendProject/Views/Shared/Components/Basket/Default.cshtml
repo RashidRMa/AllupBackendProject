@@ -6,7 +6,7 @@
         <a asp-controller="dbbasket" asp-action="index">
             <i class="icon ion-bag"></i>
             <span class="text">Cart :</span>
-            <span class="total">$@ViewBag.TotalPrice</span>
+            <span class="total">$@String.Format("{0:0.00}",ViewBag.TotalPrice)</span>
             <span class="count">@ViewBag.TotalCount</span>
         </a>
     </div>
@@ -41,7 +41,7 @@
             <div class="cart-subtotals">
                 <div class="products price_inline">
                     <span class="label">Subtotal</span>
-                    <span class="value">$@ViewBag.TotalPrice</span>
+                    <span class="value">$@String.Format("{0:0.00}",ViewBag.TotalPrice)</span>
                 </div>
                 <div class="shipping price_inline">
                     <span class="label">Shipping</span>
@@ -54,11 +54,11 @@
             </div>
             <div class="cart-total price_inline">
                 <span class="label">Total</span>
-                <span class="value">$@ViewBag.TotalPrice</span>
+                <span class="value">$@String.Format("{0:0.00}",ViewBag.TotalPrice)</span>
             </div>
         </div> <!-- price content -->
         <div class="checkout text-center">
-            <a asp-controller="basket" asp-action="sale" class="main-btn">Checkout!</a>
+            <a asp-controller="order" asp-action="index" class="main-btn">Checkout!</a>
         </div>
     </div> <!-- mini cart -->
 </div>

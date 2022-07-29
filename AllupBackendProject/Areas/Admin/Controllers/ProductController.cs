@@ -72,7 +72,7 @@ namespace AllupBackendProject.Areas.Admin.Controllers
                 Price = product.Price,
                 StockCount = product.StockCount,
                 Desc = product.Desc,
-                ProductCode = RandomString(5),
+                ProductCode = Helper.RandomString(5),
 
             };
             List<ProductImage> productImages = new List<ProductImage>();
@@ -136,9 +136,6 @@ namespace AllupBackendProject.Areas.Admin.Controllers
             if (result.Error != null) return BadRequest(result.Error.Message);
             if (newResult.Error != null) return BadRequest(newResult.Error.Message);
 
-            
-            
-
             dbProduct.Name = product.Name;
             dbProduct.Price = product.Price;
             dbProduct.StockCount = product.StockCount;
@@ -157,9 +154,6 @@ namespace AllupBackendProject.Areas.Admin.Controllers
                 dbProduct.InStock = false;
             }
             
-
-
-
             List<ProductImage> productImages = new List<ProductImage>();
             dbProductImage.ImageUrl = newResult.SecureUrl.AbsoluteUri;
             dbProductImage.PublicId = dbProductImage.PublicId;
@@ -174,13 +168,7 @@ namespace AllupBackendProject.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
-        public string RandomString(int length)
-        {
-            Random random = new Random();
-            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            return new string(Enumerable.Repeat(chars, length)
-                .Select(s => s[random.Next(s.Length)]).ToArray());
-        }
+        
 
     }
 }

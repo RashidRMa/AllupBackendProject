@@ -1,0 +1,46 @@
+﻿@model List<Order>
+@{
+    ViewData["Title"] = "Orders";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int count = 0;
+}
+
+
+<div class="my-account-order account-wrapper">
+    <h4 class="account-title" style="text-align:center;color:orangered;">Orders</h4>
+    <div class="account-table text-center mt-30 table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th class="no">No</th>
+                    <th class="name">Name</th>
+                    <th class="date">Date</th>
+                    <th class="date">Tracking ID</th>
+                    <th class="date">Adress</th>
+                    <th class="status">Status</th>
+                    <th class="date">Payment Meth</th>
+                    <th class="total">Total</th>
+                    <th class="action">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model as List<Order>)
+                {
+                    count++;
+                <tr>
+                    <td>@count</td>
+                    <td>@item.Firstname  @item.Lastname</td>
+                    <td>@String.Format("{0:dd MMM yyyy HH:mm}", item.CreatedAt).ToString()</td>
+                    <td>@item.TrackingId</td>
+                    <td>@item.Country / @item.City <br />@item.Address</td>
+                    <td>@item.OrderStatus</td>
+                    <td>@item.PaymantMethod</td>
+                    <td>$@String.Format("{0:0.00}", item.TotalPrice)</td>
+                    <td><a asp-controller="order" asp-action="orderdetail" asp-route-id="@item.Id">View</a></td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+

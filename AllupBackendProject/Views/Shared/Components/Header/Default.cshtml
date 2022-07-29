@@ -14,7 +14,7 @@
                             <ul class="menu-nav">
                                 @if (User.Identity.IsAuthenticated)
                             {
-                                <li><a asp-controller="account" asp-action="detail">Hi, @User.Identity.Name</a></li>
+                                <li><a asp-controller="order" asp-action="orders">Hi, @User.Identity.Name</a></li>
                                 <li><a asp-controller="account" asp-action="logout"> Logout</a></li>
 
                                 @if (ViewBag.WishCount > 0)

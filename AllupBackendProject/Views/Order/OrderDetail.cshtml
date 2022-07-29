@@ -1,0 +1,52 @@
+﻿
+@{
+    ViewData["Title"] = "OrderDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model Order 
+
+    <div class="container" style="width: 1200px; margin-top: 60px; display: flex;" id="full">
+        <div class="row" style="width:1200px;position: relative;">
+            <div class="col" style="display:flex;justify-content:start;align-items:start;flex-direction:column;min-width:900px;padding-right: 30px; ">
+                <table class="table" style="width:100%;" id="mainTable">
+                    <thead>
+                        <tr style="font-size:14px;font-family:inter,sans-serif;color:#afb0b6;font-weight: 100;">
+                            <th scope="col">Image</th>
+                            <th scope="col" style="width: 402px;padding: 8px;">Product</th>
+                            <th scope="col" style="width:80px;padding: 8px;">Price</th>
+                            <th scope="col" style="width:130px;padding: 8px;">Quantity</th>
+                            <th scope="col" style="width:82px;padding: 8px;">Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody style="width: 100%;">
+                        @foreach (var item in Model.OrderItems)
+                        {
+                            <tr style="width: 100%;">
+                                <td><img src="@item.Product.ProductImages.Find(i=>i.IsMain==true).ImageUrl" style="width: 70px; height: 70px;"></td>
+                                <td style="padding-top: 30px;">@item.Product.Name</td>
+                                <td style="padding-top: 30px;">$@item.ProductPrice</td>
+                                <td style="padding-top: 30px;">@item.Count</td>
+                                <td style="padding: 30px;">$@item.Total</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                
+            </div>
+            
+        </div>
+        </div>
+        <div class="container">
+        <div class="d-flex justify-content-between">
+        <div class="checkout-btn">
+                    @*<span style="margin-right:5px;color:dodgerblue">Total:</span>
+                    <span style="color:dimgrey">$@Model.TotalPrice</span>*@
+                    <a class="main-btn main-btn-2" style="cursor: default;">Total:  @Model.TotalPrice</a>
+                </div>
+       
+            <div class="checkout-btn" >
+                <a asp-controller="order" asp-action="orders" class="main-btn main-btn-2">Return to Orders</a>
+            </div>
+        </div>
+        </div>

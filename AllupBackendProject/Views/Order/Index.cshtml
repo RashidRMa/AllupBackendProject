@@ -1,0 +1,164 @@
+﻿@model Order 
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<section class="checkout-area pt-10">
+    <div class="container-fluid custom-container">
+        <div class="row">
+            <div class="col-xl-8 col-lg-7">
+                <div class="checkout-form">
+                    <form method="post" asp-action="sale">
+                        <div class="billing-address mt-30">
+                            <h4 class="allup-title">Billing Address</h4>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="single-form">
+                                        <label>First Name*</label>
+                                        <input asp-for="Firstname" placeholder="First Name">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="single-form">
+                                        <label>Last  Name*</label>
+                                        <input asp-for="Lastname" placeholder="Last Name">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="single-form">
+                                        <label>Email Address*</label>
+                                        <input asp-for="Email" placeholder="Email Address">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="single-form">
+                                        <label>Phone no*</label>
+                                        <input asp-for="Phone" placeholder="Phone no">
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="single-form">
+                                        <label>Address</label>
+                                        <input asp-for="Address" placeholder="Adress">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="single-form">
+                                        <label>Country</label>
+                                        <input asp-for="Country" placeholder="Country">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="single-form">
+                                        <label>City</label>
+                                        <input asp-for="City" placeholder="City">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="checkout-payment-wrapper mt-30">
+                            <h4 class="allup-title">Payment Method</h4>
+                            <div class="checkout-payment mt-30">
+                                <ul>
+                                    <li>
+                                        <div class="single-payment">
+                                            <div class="payment-radio">
+                                                <input type="radio" name="radio" id="bank" value="Bank">
+                                                <label for="bank"><span></span> Direct Bank Transfer</label>
+
+                                                <div class="payment-details">
+                                                    <p>Please send a Check to Store name with Store Street, Store Town, Store State, Store Postcode, Store Country.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="single-payment">
+                                            <div class="payment-radio">
+                                                <input type="radio" name="radio" id="cash" value="Cash">
+                                                <label for="cash"><span></span> Cash on Delivery</label>
+
+                                                <div class="payment-details">
+                                                    <p>Please send a Check to Store name with Store Street, Store Town, Store State, Store Postcode, Store Country.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="single-payment">
+                                            <div class="payment-radio">
+                                                <input type="radio" name="radio" id="paypal" value="Paypal">
+                                                <label for="paypal"><span></span> Paypal</label>
+
+                                                <div class="payment-details">
+                                                    <p>Please send a Check to Store name with Store Street, Store Town, Store State, Store Postcode, Store Country.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="single-payment">
+                                            <div class="payment-radio">
+                                                <input type="radio" name="radio" id="payoneer" value="Payoneer">
+                                                <label for="payoneer"><span></span> Payoneer</label>
+
+                                                <div class="payment-details">
+                                                    <p>Please send a Check to Store name with Store Street, Store Town, Store State, Store Postcode, Store Country.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="checkout-btn" style="margin-top:50px; display:flex; justify-content:end;align-items:end;">
+                            <button type="submit" class="main-btn main-btn-2">Place Order</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-5">
+                <div class="checkout-total-wrapper mt-30">
+                    <h4 class="allup-title">Cart Total</h4>
+                    <div class="checkout-total mt-30">
+                        <h4 class="title">Product  <span>Total</span></h4>
+                        <ul>
+                            @foreach (var item in ViewBag.BasketItems as List<BasketItem>)
+                            {
+                                <div class="row">
+                                <div class="total-value col-6">
+                                    <span>@item.Product.Name</span>
+                                </div>
+                                <div class="col-2" style="font-weight:900;color:darkred;">@item.Count  x</div>
+                                <div class="col-2">
+                                    <p class="total-amount">€@String.Format("{0:0.00}", item.Product.Price)</p>
+                                </div>
+                                <div class="col-2">
+                                    @String.Format("{0:0.00}",(item.Total += item.Count * item.Product.Price))
+                                </div>
+                                <input hidden value="@(Model.TotalPrice+=item.Total)"/>
+
+                                
+                            </div>  
+                            }
+                        </ul>
+                        <div class="checkout-total-sub">
+                            <p class="total-value">Sub Total</p>
+                            <p class="total-amount">€@String.Format("{0:0.00}", @Model.TotalPrice)</p>
+                        </div>
+                        <div class="checkout-total-sub">
+                            <p class="total-value">Shipping Fee </p>
+                            <p class="total-amount">€@String.Format("{0:0.00}",(@Model.TotalPrice * 0.1))</p>
+                            
+                        </div>
+                        <h4 class="title mt-15">Total  <span>€@String.Format("{0:0.00}", (Model.TotalPrice * 1.1))</span></h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

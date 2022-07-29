@@ -102,6 +102,29 @@ namespace AllupBackendProject.Controllers
             return PartialView("_SearchPartial", products);
         }
 
+
+        public IActionResult SearchProduct(string search, int id)
+        {
+            List<Product> products = _context.Products
+                .Include(p => p.Category)
+                .Where(p=> p.CategoryId == id)
+                .OrderBy(p => p.Id)
+                .Where(p => p.Name.ToLower()
+                .Contains(search.ToLower()))
+                .Take(10)
+                .ToList();
+
+            return PartialView("_SearchPartial", products);
+        }
+
+
+
+
+
+
+
+
+
         public void CategorySubChecker(List<Category> categories)
         {
             foreach (var item in categories)
