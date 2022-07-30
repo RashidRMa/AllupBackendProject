@@ -1,10 +1,14 @@
 ﻿using AllupBackendProject.DAL;
 using AllupBackendProject.Helpers;
 using AllupBackendProject.Models;
+using AllupBackendProject.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using SelectPdf;
 using System;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 
@@ -14,10 +18,12 @@ namespace AllupBackendProject.Controllers
     {
         private readonly AppDbContext _context;
         private readonly UserManager<AppUser> _userManager;
-        public OrderController(AppDbContext context, UserManager<AppUser> userManager)
+        private readonly IConfiguration _config;
+        public OrderController(AppDbContext context, UserManager<AppUser> userManager, IConfiguration config)
         {
             _context = context;
             _userManager = userManager;
+            _config = config;
         }
 
         public IActionResult Index()
@@ -44,6 +50,8 @@ namespace AllupBackendProject.Controllers
 
             var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
+            var user = _context.Users.Find(currentUserId);
+
             Order newOrder = new Order();
 
             var basket = _context.Basket.Include(b => b.BasketItems).ThenInclude(b => b.Product).FirstOrDefault(b => b.UserId == currentUserId);
@@ -59,7 +67,7 @@ namespace AllupBackendProject.Controllers
             newOrder.Firstname = order.Firstname;
             newOrder.Lastname = order.Lastname;
             newOrder.Phone = order.Phone;
-            newOrder.UserId = currentUserId;
+            newOrder.AppUserId = currentUserId;
             newOrder.OrderStatus = OrderStatus.Pending;
             newOrder.PaymantMethod = radio;
             newOrder.TrackingId = Helper.RandomString(11);
@@ -85,13 +93,16 @@ namespace AllupBackendProject.Controllers
 
 
             _context.SaveChanges();
+
+            //EmailService emailService = new EmailService(_config.GetSection("ConfirmationParams:Email").Value, _config.GetSection("ConfirmationParams:Password").Value);
+            //var emailResult = emailService.SendEmail(user.Email, "Your order Approved", $"Dear {user.UserName}, Your order has been confirmed. Have a great day! ", Helper.SendInvoice(newOrder.Id), $"{newOrder.TrackingId}.pdf");
             return RedirectToAction("index", "home");
         }
 
         public IActionResult Orders()
         {
             var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var orders = _context.Orders.Where(o => o.UserId == currentUserId).OrderByDescending(x=> x.CreatedAt).ToList();
+            var orders = _context.Orders.Where(o => o.AppUserId == currentUserId).OrderByDescending(x=> x.CreatedAt).ToList();
 
             return View(orders);
         }
@@ -106,5 +117,21 @@ namespace AllupBackendProject.Controllers
 
             return View(order);
         }
+
+
+        public IActionResult Invoice(int id)
+        {
+            var order = _context.Orders
+               .Include(u => u.AppUser)
+               .Include(o => o.OrderItems)
+               .ThenInclude(o => o.Product)
+               .FirstOrDefault(o => o.Id == id);
+
+            //ViewBag.User = _userManager.Users.FirstOrDefault(x=> x.)
+
+            return View(order);
+        }
+
+        
     }
 }

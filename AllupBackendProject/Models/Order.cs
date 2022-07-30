@@ -27,7 +27,7 @@ namespace AllupBackendProject.Models
         public double TotalPrice { get; set; }
         public OrderStatus OrderStatus { get; set; }
 
-        public string UserId { get; set; }
+        public string AppUserId { get; set; }
         public AppUser AppUser { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
@@ -37,8 +37,10 @@ namespace AllupBackendProject.Models
     public enum OrderStatus
     {
         Pending,
+        Approved,
         Shipped,
-        Finished
+        Finished,
+        Canceled
 
     }
 }

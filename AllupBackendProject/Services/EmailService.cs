@@ -1,49 +1,58 @@
 ﻿using AllupBackendProject.Interfaces;
+using Microsoft.Extensions.Configuration;
 using MimeKit;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
 
 namespace AllupBackendProject.Services
 {
-    public class EmailService : IEmailService
+    public class EmailService
     {
-        public async Task SendEmailAsync(List<string> email, string subject, string message)
+        private readonly string _privateEmail;
+        private readonly string _privatePassword;
+
+        public EmailService(string privateEmail, string privatePassword)
         {
-            var emailMessage = new MimeMessage();
+            _privateEmail = privateEmail;
+            _privatePassword = privatePassword;
+        }
 
-            emailMessage.From.Add(new MailboxAddress("Education Saytin Admini", "allup@internet.ru"));
 
-            foreach (var item in email)
+        public bool SendEmail(string UserEmail, string subject, string content, byte[] bytes = null, string filename = null)
+        {
+            MailMessage mailMessage = new MailMessage();
+            mailMessage.From = new MailAddress(_privateEmail);
+            mailMessage.To.Add(new MailAddress(UserEmail));
+
+            mailMessage.Subject = subject;
+            mailMessage.IsBodyHtml = true;
+            mailMessage.Body = content;
+            if (filename!=null)
             {
-                emailMessage.To.Add(new MailboxAddress("", item));
+                mailMessage.Attachments.Add(new Attachment(new MemoryStream(bytes), filename));
             }
 
-            emailMessage.Subject = subject;
-            emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html)
+            SmtpClient client = new SmtpClient();
+            client.Credentials = new System.Net.NetworkCredential(_privateEmail, _privatePassword);
+            client.Host = "smtp.mail.ru";
+            client.EnableSsl = true;
+            client.Port = 587;
+
+            try
             {
-                Text = message
-            };
-
-            using (var client = new SmtpClient())
+                client.Send(mailMessage);
+                return true;
+            }
+            catch (System.Exception)
             {
-                //client.UseDefaultCredentials = false;
-                //client.Credentials = new NetworkCredential("allup@internet.ru", "gkcdW5bRbuxcB1BjMr5b");
-                
-                //client.Port
 
-                //await client.ConnectAsync("smtp.mail.ru", 465, true);
-                //await client.AuthenticateAsync("javiddadashov8@mail.ru", "IyoKtdI3El1-");
-                //await client.SendAsync(emailMessage);
 
-                //await client.DisconnectAsync(true);
             }
 
-
-
-
-            throw new System.NotImplementedException();
+            return false;
         }
     }
 }
